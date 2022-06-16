@@ -21,15 +21,19 @@ class PicturesController < ApplicationController
 
   # POST /pictures or /pictures.json
   def create
-    @picture = Picture.new(picture_params)
-
-    respond_to do |format|
-      if @picture.save
-        format.html { redirect_to picture_url(@picture), notice: "Picture was successfully created." }
-        format.json { render :show, status: :created, location: @picture }
+    @picture = current_user.pictures.build(picture_params)
+      if params[:back]
+        render :new
       else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @picture.errors, status: :unprocessable_entity }
+
+      respond_to do |format|
+        if @picture.save
+          format.html { redirect_to picture_url(@picture), notice: "Picture was successfully created." }
+          format.json { render :show, status: :created, location: @picture }
+        else
+          format.html { render :new, status: :unprocessable_entity }
+          format.json { render json: @picture.errors, status: :unprocessable_entity }
+        end
       end
     end
   end
@@ -59,12 +63,12 @@ class PicturesController < ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
-    def set_picture
-      @picture = Picture.find(params[:id])
-    end
+  def set_picture
+    @picture = Picture.find(params[:id])
+  end
 
     # Only allow a list of trusted parameters through.
-    def picture_params
-      params.require(:picture).permit(:image, :content, :user_id)
-    end
+  def picture_params
+    params.require(:picture).permit(:image, :image_cache, :content)
+  end
 end

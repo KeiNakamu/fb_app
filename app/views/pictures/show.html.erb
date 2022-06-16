@@ -2,17 +2,12 @@
 
 <p>
   <strong>Image:</strong>
-  <%= @picture.image %>
+  <%= image_tag @picture.image.url %>
 </p>
 
 <p>
   <strong>Content:</strong>
   <%= @picture.content %>
-</p>
-
-<p>
-  <strong>User:</strong>
-  <%= @picture.user_id %>
 </p>
 
 <%= link_to 'Edit', edit_picture_path(@picture) %> |
