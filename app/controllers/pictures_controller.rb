@@ -12,8 +12,12 @@ class PicturesController < ApplicationController
 
   # GET /pictures/new
   def new
+  if params[:back]
+    @picture = Picture.new(picture_params)
+  else
     @picture = Picture.new
   end
+end
 
   # GET /pictures/1/edit
   def edit
@@ -59,6 +63,10 @@ class PicturesController < ApplicationController
       format.html { redirect_to pictures_url, notice: "Picture was successfully destroyed." }
       format.json { head :no_content }
     end
+  end
+
+  def confirm
+    @picture = Picture.new(picture_params)
   end
 
   private
