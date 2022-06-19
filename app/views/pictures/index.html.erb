@@ -17,10 +17,10 @@
       <tr>
         <td><%= picture.image %></td>
         <td><%= picture.content %></td>
-        <td><%= picture.user_id %></td>
-        <td><%= link_to 'Show', picture %></td>
-        <td><%= link_to 'Edit', edit_picture_path(picture) %></td>
-        <td><%= link_to 'Destroy', picture, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= picture.user.name %></td>
+        <td><%= button_to '詳細', picture, method: :get %></td>
+        <td><%= button_to '編集', edit_picture_path(picture), method: :get %></td>
+        <td><%= button_to '削除', picture, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
@@ -28,4 +28,4 @@
 
 <br>
 
-<%= link_to 'New Picture', new_picture_path %>
+<%= button_to '投稿', new_picture_path, method: :get %>

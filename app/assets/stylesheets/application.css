@@ -13,3 +13,16 @@
  *= require_tree .
  *= require_self
  */
+ img.sized {
+  width: 80%;
+  height: 80%;
+}
+
+ .hero {
+   background-image: url(./img/summer.jpg);
+   background-position: center;
+   background-size: cover;
+   background-attachment: fixed;
+   /* position: relative; */
+   /* z-index: 2; */
+ }

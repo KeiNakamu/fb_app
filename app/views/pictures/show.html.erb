@@ -2,7 +2,7 @@
 
 <p>
   <strong>Image:</strong>
-  <%= image_tag @picture.image.url %>
+  <%= image_tag @picture.image.url, width: '70%', height: '70%' %>
 </p>
 
 <p>
@@ -10,5 +10,5 @@
   <%= @picture.content %>
 </p>
 
-<%= link_to 'Edit', edit_picture_path(@picture) %> |
-<%= link_to 'Back', pictures_path %>
+<%= button_to '編集', edit_picture_path(@picture), method: :get %> |
+<%= button_to '一覧画面', pictures_path, method: :get %>
