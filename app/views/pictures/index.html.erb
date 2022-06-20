@@ -19,7 +19,7 @@
         <td><%= picture.content %></td>
         <td><%= picture.user.name %></td>
         <td><%= button_to '詳細', picture, method: :get %></td>
-        <td><%= button_to '編集', edit_picture_path(picture), method: :get %></td>
+        <td><%= button_to '編集', edit_picture_path(picture.id), method: :get %></td>
         <td><%= button_to '削除', picture, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>

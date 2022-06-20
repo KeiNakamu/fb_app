@@ -1,7 +1,24 @@
-<h1>Editing Picture</h1>
+<%= form_with(model: @picture, local: true, url:confirm_pictures_path) do |form| %>
+  <% if @picture.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= @picture.errors.count %>件のエラーがあります。</h2>
+      <h2>編集する</h2>
 
-<h2>投稿編集</h2>
-<%= render 'form', picture: @picture %>
+       <%= render 'form' %>
+       <ul>
 
-<%= button_to '詳細', @picture, method: :get %> |
+       <% @picture.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+       <% end %>
+       <h1>Editing Picture</h1>
+
+       <h2>投稿編集</h2>
+
+       </ul>
+    </div>
+  <% end %>
+<%= render 'form', picture: @picture%>
+
+<% end %>
+<%= button_to '詳細', @picture, method: :get %>
 <%= button_to '一覧画面', pictures_path, method: :get %>

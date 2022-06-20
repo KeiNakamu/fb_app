@@ -1,5 +1,6 @@
 class PicturesController < ApplicationController
-  before_action :set_picture, only: %i[ show edit update destroy ]
+  before_action :set_picture, only: [:show, :edit, :update, :destroy]
+  before_action :correct_user, only: [:edit, :update, :destroy]
 
   # GET /pictures or /pictures.json
   def index
@@ -21,37 +22,30 @@ end
 
   # GET /pictures/1/edit
   def edit
+    @picture = Picture.find(params[:id])
   end
 
   # POST /pictures or /pictures.json
   def create
     @picture = current_user.pictures.build(picture_params)
-      if params[:back]
+    if params[:back]
         render :new
+    else
+      if @picture.save
+          redirect_to pictures_path, notice: "投稿しました！"
       else
-
-      respond_to do |format|
-        if @picture.save
-          format.html { redirect_to picture_url(@picture), notice: "Picture was successfully created." }
-          format.json { render :show, status: :created, location: @picture }
-        else
-          format.html { render :new, status: :unprocessable_entity }
-          format.json { render json: @picture.errors, status: :unprocessable_entity }
-        end
+          render :new
       end
     end
   end
 
   # PATCH/PUT /pictures/1 or /pictures/1.json
   def update
-    respond_to do |format|
-      if @picture.update(picture_params)
-        format.html { redirect_to picture_url(@picture), notice: "Picture was successfully updated." }
-        format.json { render :show, status: :ok, location: @picture }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @picture.errors, status: :unprocessable_entity }
-      end
+    @picture = Picture.find(params[:id])
+    if @picture.update(picture_params)
+      redirect_to  pictures_path, notice: "投稿を編集しました！"
+    else
+      render :edit
     end
   end
 
@@ -60,13 +54,14 @@ end
     @picture.destroy
 
     respond_to do |format|
-      format.html { redirect_to pictures_url, notice: "Picture was successfully destroyed." }
+      format.html { redirect_to pictures_url, notice: "削除しました" }
       format.json { head :no_content }
     end
   end
 
   def confirm
-    @picture = Picture.new(picture_params)
+    @picture = current_user.pictures.build(picture_params)
+    render :new if @picture.invalid?
   end
 
   private
@@ -78,5 +73,12 @@ end
     # Only allow a list of trusted parameters through.
   def picture_params
     params.require(:picture).permit(:image, :image_cache, :content)
+  end
+
+  def correct_user
+    unless Picture.find(params[:id]).user.id.to_i == current_user.id
+        redirect_to pictures_path(current_user)
+        flash[:notice] = "権限がありません"
+    end
   end
 end

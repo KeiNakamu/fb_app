@@ -4,7 +4,10 @@ Rails.application.routes.draw do
   resources :pictures do
     collection do
       post :confirm
+      patch :confirm
+    end
+    member do
+      patch :confirm  
     end
   end
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
