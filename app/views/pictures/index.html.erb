@@ -15,7 +15,7 @@
   <tbody>
     <% @pictures.each do |picture| %>
       <tr>
-        <td><%= picture.image %></td>
+        <td><%= image_tag picture.image.url if picture.image.present? %></td>
         <td><%= picture.content %></td>
         <td><%= picture.user.name %></td>
         <td><%= button_to '詳細', picture, method: :get %></td>
